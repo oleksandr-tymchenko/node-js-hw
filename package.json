@@ -6,13 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index",
-    "dev": "nodemon index"
+    "dev": "nodemon index",
+    "a-read": "node index -a read",
+    "a-get": "node index -a getById -i"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "commander": "^11.0.0",
     "nanoid": "^3.3.4",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "yargs": "^17.7.2"
   }
 }

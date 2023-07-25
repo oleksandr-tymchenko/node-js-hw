@@ -1,26 +1,49 @@
-const fs = require('fs/promises');
-const path = require('path');
+// const yargs = require('yargs');
+// const { hideBin } = require('yargs/helpers');
+const { program } = require('commander');
+
 const contacts = require('./conacts');
 
 const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
     case 'read':
       const allContacts = await contacts.listContacts();
-      return console.log(allContacts);
+      console.log(allContacts);
+      break;
     case 'getById':
       const searchedContact = await contacts.getContactById(id);
-      return console.log(searchedContact);
+      console.log(searchedContact);
+      break;
     case 'remove':
       const removedContact = await contacts.removeContact(id);
-      return console.log(removedContact);
+      console.log(removedContact);
+      break;
     case 'add':
       const addedConact = await contacts.addContact({ name, email, phone });
-      return console.log(addedConact);
+      console.log(addedConact);
+      break;
     default:
-      return console.log('Unknown action');
+      console.warn('\x1B[31m Unknown action type!');
   }
 };
 
-// invokeAction({ action: 'read' });
-// invokeAction({ action: 'remove', id: 'qdggE76Jtbfd9eWJHrssH' });
-invokeAction({ action: 'add', name: 'Ol Tymch', email: 'myemail@mail.com', phone: '050888888' });
+// ? yargs
+// const arr = hideBin(process.argv);
+
+// const { argv } = yargs(arr);
+// // console.log(argv);
+// invokeAction(argv);
+
+// ?commander
+program
+  .option('-a, --action, <type>')
+  .option('-i, --id, <type>')
+  .option('-n, --name, <type>')
+  .option('-e, --email, <type>')
+  .option('-p, --phone, <type>');
+
+program.parse();
+
+const options = program.opts();
+
+invokeAction(options);
