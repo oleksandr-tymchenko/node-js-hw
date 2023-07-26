@@ -4,6 +4,11 @@ const path = require('path');
 
 const contactsPath = path.join(__dirname, 'db/contacts.json');
 
+// * винесли функцію для скороченя коду
+const updateConacts = data => {
+  fs.writeFile(contactsPath, JSON.stringify(data, null, 2));
+};
+
 const listContacts = async () => {
   const data = await fs.readFile(contactsPath);
   return JSON.parse(data);
@@ -20,7 +25,8 @@ const removeContact = async id => {
   const index = contacts.findIndex(item => item.id === id);
   if (index === -1) return null;
   const [result] = contacts.splice(index, 1);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  // await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  await updateConacts(contacts);
   return result;
 };
 
@@ -31,7 +37,8 @@ const addContact = async data => {
   };
   const contacts = await listContacts();
   contacts.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  // await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  await updateConacts(contacts);
   return newContact;
 };
 module.exports = {
